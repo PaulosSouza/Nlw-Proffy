@@ -29,10 +29,13 @@
     "react/prop-types": "off",
     "prettier/prettier": "error",
     "react-hooks/rules-of-hooks": "error",
+    "jsx-a11y/label-has-associated-control": "off",
     "no-unused-expressions": "off",
+    "@typescript-eslint/camelcase": "off",
     "react-hooks/exhaustive-deps": "warn",
     "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
     "import/prefer-default-export": "off",
+    "react/jsx-one-expression-per-line": "off",
     "@typescript-eslint/explicit-function-return-type": [
       "error",
       {
