@@ -14,6 +14,16 @@ import api from '../../services/api';
 import styles from './styles';
 
 const TeacherList: React.FC = () => {
+  const weeksFormatted = [
+    { numberDay: 0, nameDay: 'Domingo'},
+    { numberDay: 1, nameDay: 'Segunda-feira'},
+    { numberDay: 2, nameDay: 'Terça-feira'},
+    { numberDay: 3, nameDay: 'Quarta-feira'},
+    { numberDay: 4, nameDay: 'Quinta-feira'},
+    { numberDay: 5, nameDay: 'Sexta-feira'},
+    { numberDay: 6, nameDay: 'Sábado'},
+  ];
+
   const [isFiltersVisible, setIsFiltersVisible] = useState(false);
   const [teachers, setTeachers] = useState([]);
   const [favorites, setFavorites] = useState<number[]>([]);
@@ -40,17 +50,19 @@ const TeacherList: React.FC = () => {
   const handleFiltersSubmit = useCallback(async () => {
     loadFavorites();
 
+    const result = weeksFormatted.find(week => week.nameDay === week_day);
+
     const response = await api.get('classes', {
       params: {
         subject,
-        week_day,
+        week_day: result?.numberDay,
         time,
       },
     });
 
     setIsFiltersVisible(false);
     setTeachers(response.data);
-  }, [subject, week_day, time, loadFavorites]);
+  }, [subject, week_day, time, loadFavorites, weeksFormatted]);
 
   return (
     <View style={styles.container}>
