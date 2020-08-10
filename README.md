@@ -12,7 +12,6 @@
 * [Como rodar](#construction_worker-como-rodar)
 * [Encontrou um bug? Ou está faltando uma feature?](#bug-problemas)
 * [Contribuindo](#tada-contribuindo)
-* [Licencia](#closed_book-licencia)
 
 
 ### Web Screenshot
