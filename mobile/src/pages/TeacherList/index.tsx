@@ -2,7 +2,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
 import React, { useState, useCallback } from 'react';
-import { View, ScrollView, Text, TextInput, AsyncStorage } from 'react-native';
+import { View, ScrollView, Text, Platform, TextInput, AsyncStorage, KeyboardAvoidingView } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
 
@@ -65,69 +65,80 @@ const TeacherList: React.FC = () => {
   }, [subject, week_day, time, loadFavorites, weeksFormatted]);
 
   return (
-    <View style={styles.container}>
-      <PageHeader
-        title="Proffys disponíveis"
-        headerRight={(
-          <BorderlessButton onPress={handleToggleFiltersVisible}>
-            <Feather name="filter" size={20} color="#FFF" />
-          </BorderlessButton>
-        )}
-      >
-        {isFiltersVisible && (
-          <View style={styles.searchForm}>
-            <Text style={styles.label}>Matéria</Text>
-            <TextInput
-              style={styles.input}
-              value={subject}
-              onChangeText={text => setSubject(text)}
-              placeholder="Qual a matéria?"
-              placeholderTextColor="#c1bccc"
-            />
-
-            <View style={styles.inputGroup}>
-              <View style={styles.inputBlock}>
-                <Text style={styles.label}>Dia da semana</Text>
-                <TextInput
-                  style={styles.input}
-                  value={week_day}
-                  onChangeText={text => setWeekDay(text)}
-                  placeholder="Qual o dia?"
-                  placeholderTextColor="#c1bccc"
-                />
-              </View>
-
-              <View style={styles.inputBlock}>
-                <Text style={styles.label}>Horário</Text>
-                <TextInput
-                  style={styles.input}
-                  value={time}
-                  onChangeText={text => setTime(text)}
-                  placeholder="Qual o horário?"
-                  placeholderTextColor="#c1bccc"
-                />
-              </View>
-            </View>
-
-            <RectButton onPress={handleFiltersSubmit} style={styles.submitButton}>
-              <Text style={styles.submitButtonText}>Filtrar</Text>
-            </RectButton>
-          </View>
-        )}
-      </PageHeader>
-
+    <KeyboardAvoidingView 
+      style={{ flex: 1, }} 
+      behavior={Platform.select({ ios: 'padding', android: 'position' })} 
+      keyboardVerticalOffset={Platform.select({ios: 0, android: -300})}
+      contentContainerStyle={{ flex: 1,}}
+    >
       <ScrollView
-        style={styles.teacherList}
-        contentContainerStyle={{
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={styles.container}>
+          <PageHeader
+            title="Proffys disponíveis"
+            headerRight={(
+              <BorderlessButton onPress={handleToggleFiltersVisible}>
+                <Feather name="filter" size={20} color="#FFF" />
+              </BorderlessButton>
+        )}
+          >
+            {isFiltersVisible && (
+            <View style={styles.searchForm}>
+              <Text style={styles.label}>Matéria</Text>
+              <TextInput
+                style={styles.input}
+                value={subject}
+                onChangeText={text => setSubject(text)}
+                placeholder="Qual a matéria?"
+                placeholderTextColor="#c1bccc"
+              />
+
+              <View style={styles.inputGroup}>
+                <View style={styles.inputBlock}>
+                  <Text style={styles.label}>Dia da semana</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={week_day}
+                    onChangeText={text => setWeekDay(text)}
+                    placeholder="Qual o dia?"
+                    placeholderTextColor="#c1bccc"
+                  />
+                </View>
+
+                <View style={styles.inputBlock}>
+                  <Text style={styles.label}>Horário</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={time}
+                    onChangeText={text => setTime(text)}
+                    placeholder="Qual o horário?"
+                    placeholderTextColor="#c1bccc"
+                  />
+                </View>
+              </View>
+
+              <RectButton onPress={handleFiltersSubmit} style={styles.submitButton}>
+                <Text style={styles.submitButtonText}>Filtrar</Text>
+              </RectButton>
+            </View>
+        )}
+          </PageHeader>
+
+          <ScrollView
+            style={styles.teacherList}
+            contentContainerStyle={{
           paddingHorizontal: 16,
           paddingBottom: 16,
         }}
-      >
-        {teachers.map((teacher: TeacherProps) => (
-          <TeacherItem key={teacher.id} teacher={teacher} favorited={favorites.includes(teacher.id)} />
+          >
+            {teachers.map((teacher: TeacherProps) => (
+              <TeacherItem key={teacher.id} teacher={teacher} favorited={favorites.includes(teacher.id)} />
         ))}
+          </ScrollView>
+        </View>
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
